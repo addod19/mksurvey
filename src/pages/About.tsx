@@ -1,4 +1,4 @@
-
+import { Link } from "react-router-dom";
 
 export default function About() {
   return (
@@ -47,12 +47,11 @@ export default function About() {
         </p>
 
         <div className="has-text-centered mt-5">
-          <a
-            href="/contact"
+          <Link to="/contact"
             className="button is-primary is-medium"
           >
             Contact Us
-          </a>
+          </Link>
         </div>
       </div>
     </section>

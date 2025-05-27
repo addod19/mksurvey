@@ -1,4 +1,3 @@
-// src/components/Navbar.jsx
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -53,12 +52,16 @@ export default function Navbar() {
         <div className="navbar-end">
           <div className="navbar-item">
             <div className="buttons">
-              <a className="button is-danger has-text-white" href="/login" onClick={handleLinkClick}>
+              <Link to="/login"
+                className="button is-danger has-text-white"
+                onClick={handleLinkClick}>
                 Log in
-              </a>
-              <a className="button is-danger has-text-white mr-2" href="/signup" onClick={handleLinkClick}>
+              </Link>
+              <Link to="/signup"
+                className="button is-danger has-text-white mr-2"
+                onClick={handleLinkClick}>
                 <strong>Sign up</strong>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
