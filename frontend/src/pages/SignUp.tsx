@@ -1,6 +1,10 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function Signup() {
+  const navigate = useNavigate();
+  const auth = useAuth();
 
   const [formData, setFormData] = useState({
     fullname: '',
@@ -8,32 +12,36 @@ export default function Signup() {
     password: '',
     confirmPassword: '',
     phoneNumber: '',
+    role: 'survey_admin',
   });
 
   const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target as HTMLInputElement;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage('');
     if (formData.password !== formData.confirmPassword) {
       setErrorMessage('Passwords do not match!');
-      setSuccessMessage('');
-    } else {
-      setErrorMessage('');
-      setSuccessMessage('Registration Successful!');
+      return;
     }
+    const payload = {
+      name: formData.fullname,
+      email: formData.email,
+      password: formData.password,
+      phone: formData.phoneNumber,
+      role: formData.role,
+    };
+    const res = await auth.signUp(payload);
+    if (!res.ok) setErrorMessage(res.error || 'Registration failed');
+    else navigate('/');
   };
 
   return (
-
     <div className="form-container">
       <h2>User Registration</h2>
       <form className="registration-form" onSubmit={handleSubmit}>
@@ -50,7 +58,7 @@ export default function Signup() {
                 required
               />
               <span className="icon is-small is-left">
-                <i className="fas fa-lock"></i>
+                <i className="fas fa-user"></i>
               </span>
             </p>
           </div>
@@ -69,7 +77,7 @@ export default function Signup() {
                 required
               />
               <span className="icon is-small is-left">
-                <i className="fas fa-lock"></i>
+                <i className="fas fa-envelope"></i>
               </span>
             </p>
           </div>
@@ -80,8 +88,8 @@ export default function Signup() {
             <p className="control has-icons-left">
               <input className="input"
                 type="password"
-                id="Password"
-                name="Password"
+                id="password"
+                name="password"
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
@@ -101,7 +109,7 @@ export default function Signup() {
                 type="password"
                 id="confirmPassword"
                 name="confirmPassword"
-                placeholder="confirm Password"
+                placeholder="Confirm Password"
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 required
@@ -123,14 +131,29 @@ export default function Signup() {
                 placeholder="Phone Number"
                 value={formData.phoneNumber}
                 onChange={handleChange}
-                required
               />
             </p>
           </div>
         </div>
 
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-        {successMessage && <p className="success-message">{successMessage}</p>}
+        <div className="form-group mt-2">
+          <div className="field">
+            <label className="label">Role (choose admin role if creating admin)</label>
+            <div className="control">
+              <div className="select">
+                <select name="role" value={formData.role} onChange={handleChange}>
+                  <option value="survey_admin">Survey Admin</option>
+                  <option value="loader_admin">Loader Admin</option>
+                  <option value="tipper_admin">Tipper Admin</option>
+                  <option value="blocks_admin">Blocks Admin</option>
+                  <option value="main_admin">Main Admin</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {errorMessage && <p className="error-message has-text-danger">{errorMessage}</p>}
 
         <button type="submit" className="button is-primary submit-button mt-2">
           Register

@@ -8,21 +8,21 @@ export default function Home() {
         <div className="container">
           <h2 className="title has-text-centered">Our Services</h2>
           <div className="columns">
-            <div className="column has-text-centered">
+            <div className="column has-text-centered service-card">
               <span className="icon is-large has-text-primary">
                 <i className="fas fa-drafting-compass fa-2x"></i>
               </span>
               <h3 className="title is-5 mt-2">Land Surveying</h3>
               <p>Accurate boundary, topographic, and site surveys for legal and design purposes.</p>
             </div>
-            <div className="column has-text-centered">
+            <div className="column has-text-centered service-card">
               <span className="icon is-large has-text-primary">
                 <i className="fas fa-hard-hat fa-2x"></i>
               </span>
               <h3 className="title is-5 mt-2">Construction Planning</h3>
               <p>Strategic site planning, layouts, and elevation designs for all construction projects.</p>
             </div>
-            <div className="column has-text-centered">
+            <div className="column has-text-centered service-card">
               <span className="icon is-large has-text-primary">
                 <i className="fas fa-map-marked-alt fa-2x"></i>
               </span>
@@ -33,7 +33,7 @@ export default function Home() {
             </div>
           </div>
           <div className="columns">
-            <div className="column has-text-centered">
+            <div className="column has-text-centered service-card">
               <span className="icon is-large has-text-primary">
                 <i className="fas fa-drafting-compass fa-2x"></i>
               </span>
@@ -42,7 +42,7 @@ export default function Home() {
                 We provide drone images of the entire land.
               </p>
             </div>
-            <div className="column has-text-centered">
+            <div className="column has-text-centered service-card">
               <span className="icon is-large has-text-primary">
                 <i className="fas fa-drafting-compass fa-2x"></i>
               </span>

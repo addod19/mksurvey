@@ -7,7 +7,7 @@ export default function About() {
         <h1 className="title has-text-centered">About MK Surveying & Construction</h1>
 
         <p>
-          <strong>MK Surveying and Construction</strong> is a leading provider of land surveying and construction solutions across the region. With a team of experienced professionals, we are committed to delivering accurate, reliable, and timely services tailored to the unique needs of each client.
+          MK Surveying and Construction is a leading provider of land surveying and construction solutions across the region. With a team of experienced professionals, we are committed to delivering accurate, reliable, and timely services tailored to the unique needs of each client.
         </p>
 
         <h2 className="subtitle">Our Mission</h2>
