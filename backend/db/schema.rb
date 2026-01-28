@@ -10,9 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_28_123500) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_28_130000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "blocks_orders", force: :cascade do |t|
+    t.string "buyer_name", null: false
+    t.string "buyer_phone"
+    t.datetime "created_at", null: false
+    t.text "notes"
+    t.integer "quantity", default: 0, null: false
+    t.string "status", default: "pending", null: false
+    t.decimal "total_price", precision: 12, scale: 2, default: "0.0", null: false
+    t.decimal "unit_price", precision: 10, scale: 2, default: "0.0", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["status"], name: "index_blocks_orders_on_status"
+    t.index ["user_id"], name: "index_blocks_orders_on_user_id"
+  end
 
   create_table "jwt_denylists", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -50,5 +65,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_28_123500) do
     t.index ["role"], name: "index_users_on_role"
   end
 
+  add_foreign_key "blocks_orders", "users"
   add_foreign_key "refresh_tokens", "users"
 end

@@ -6,6 +6,8 @@ type User = {
   email: string;
   role?: string;
   name?: string;
+  full_name?: string | null;
+  phone_number?: string | null;
 };
 
 type AuthContextValue = {

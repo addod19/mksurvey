@@ -168,6 +168,56 @@ html, body, #root {
   box-shadow: 0 14px 30px rgba(15,23,36,0.06);
 }
 
+/* Avatar menu in navbar */
+.avatar-wrapper { position: relative; display: inline-block; }
+.avatar-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  border: none; display: inline-flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,0.1); color: #fff; cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+.avatar-btn:hover { transform: translateY(-2px); background: rgba(255,255,255,0.14); }
+.avatar-initials { font-weight: 700; color: #062f6f; background: #fff; width: 34px; height: 34px; display:inline-flex; align-items:center; justify-content:center; border-radius: 50%; }
+.avatar-icon { font-size: 18px; }
+.avatar-menu {
+  position: absolute; right: 0; top: 52px; min-width: 160px; background: var(--color-surface);
+  border-radius: 10px; box-shadow: 0 10px 30px rgba(15,23,36,0.12);
+  transform-origin: top right; transform: translateY(-6px) scale(0.96);
+  opacity: 0; pointer-events: none; transition: transform 180ms cubic-bezier(.2,.9,.2,1), opacity 160ms ease;
+  overflow: hidden; z-index: 60;
+}
+.avatar-menu.is-open { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
+.avatar-item { padding: 10px 14px; display: block; color: #0f1724; text-decoration: none; font-weight: 600; }
+.avatar-item + .avatar-item { border-top: 1px solid rgba(15,23,36,0.04); }
+.avatar-logout { width: 100%; text-align: left; background: transparent; border: none; cursor: pointer; }
+
+/* Input with inline action (show password) */
+.input-with-action { position: relative; }
+.input-with-action .input { padding-right: 3.2rem; }
+.input-action-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: rgba(15,23,36,0.6);
+  cursor: pointer;
+  padding: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.input-action-btn:focus { outline: none; }
+
+/* Spinner for buttons */
+.spinner {
+  width: 16px; height: 16px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2);
+  border-top-color: rgba(255,255,255,0.9); animation: spin 800ms linear infinite; display: inline-block;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+
 /* Ensure headings and body text inside content-card are visible */
 .content-card h1,
 .content-card h2,

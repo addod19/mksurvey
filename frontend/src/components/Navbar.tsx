@@ -1,9 +1,25 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Navbar() {
   const [isActive, setIsActive] = useState(false);
   const handleLinkClick = () => setIsActive(false);
+  const { user, signOut, loading } = useAuth();
+
+  // avatar menu open state
+  const [open, setOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement | null>(null);
+
+  // close menu on outside click
+  useEffect(() => {
+    const onDoc = (e: MouseEvent) => {
+      if (!menuRef.current) return;
+      if (!menuRef.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener('click', onDoc);
+    return () => document.removeEventListener('click', onDoc);
+  }, []);
 
   return (
     <nav className="navbar site-navbar" role="navigation" aria-label="main navigation">
@@ -49,18 +65,41 @@ export default function Navbar() {
           </div>
 
           <div className="navbar-end">
-            <div className="navbar-item">
-              <div className="buttons">
-                <Link to="/login"
-                  className="button is-danger has-text-white"
-                  onClick={handleLinkClick}>
-                  Log in
-                </Link>
-                <Link to="/signup"
-                  className="button is-danger has-text-white mr-2"
-                  onClick={handleLinkClick}>
-                  <strong>Sign up</strong>
-                </Link>
+            <div className="navbar-item" ref={menuRef}>
+              {/* Avatar button */}
+              <div className="avatar-wrapper">
+                <button
+                  className="avatar-btn"
+                  aria-haspopup="true"
+                  aria-expanded={open}
+                  onClick={() => setOpen((s) => !s)}
+                >
+                  {user ? (
+                    // initials avatar when signed in
+                    <span className="avatar-initials">{(user.full_name || user.name || user.email || 'U').slice(0,2).toUpperCase()}</span>
+                  ) : (
+                    // generic avatar icon when not signed in
+                    <span className="avatar-icon">👤</span>
+                  )}
+                </button>
+
+                <div className={`avatar-menu ${open ? 'is-open' : ''}`} role="menu">
+                  {!loading && user ? (
+                    <>
+                      <div className="avatar-item">Signed in as <strong>{user.email}</strong></div>
+                      <button className="avatar-item avatar-logout" onClick={() => { setOpen(false); signOut(); }}>
+                        Logout
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <Link to="/login" className="avatar-item" onClick={() => setOpen(false)}>Log in</Link>
+                      <Link to="/signup" className="avatar-item" onClick={() => setOpen(false)}>
+                        Sign up
+                      </Link>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </div>

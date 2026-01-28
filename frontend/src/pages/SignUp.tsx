@@ -13,6 +13,10 @@ export default function Signup() {
     role: 'survey_admin',
   });
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -34,8 +38,10 @@ export default function Signup() {
       phone: formData.phoneNumber,
       role: formData.role,
     };
+    setLoading(true);
     const res = await auth.signUp(payload);
-  if (!res.ok) setErrorMessage(res.error || 'Registration failed');
+    setLoading(false);
+    if (!res.ok) setErrorMessage(res.error || 'Registration failed');
   };
 
   return (
@@ -44,7 +50,7 @@ export default function Signup() {
       <form className="registration-form" onSubmit={handleSubmit}>
         <div className="form-group mt-2">
           <div className="field">
-            <p className="control has-icons-left">
+            <p className="control has-icons-left has-icons-right">
               <input className="input"
                 type="text"
                 id="fullname"
@@ -63,7 +69,7 @@ export default function Signup() {
 
         <div className="form-group mt-2">
           <div className="field">
-            <p className="control has-icons-left">
+            <p className="control has-icons-left has-icons-right">
               <input className="input"
                 type="email"
                 id="email"
@@ -82,39 +88,49 @@ export default function Signup() {
 
         <div className="form-group mt-2">
           <div className="field">
-            <p className="control has-icons-left">
-              <input className="input"
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
-              <span className="icon is-small is-left">
-                <i className="fas fa-lock"></i>
-              </span>
-            </p>
+            <div className="input-with-action">
+              <p className="control has-icons-left">
+                <input className="input"
+                  type={showPassword ? 'text' : 'password'}
+                  id="password"
+                  name="password"
+                  placeholder="Password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                />
+                <span className="icon is-small is-left">
+                  <i className="fas fa-lock"></i>
+                </span>
+                <button type="button" className="input-action-btn" aria-label="Toggle password visibility" onClick={() => setShowPassword(s => !s)}>
+                  {showPassword ? <i className="fas fa-eye-slash"></i> : <i className="fas fa-eye"></i>}
+                </button>
+              </p>
+            </div>
           </div>
         </div>
 
         <div className="form-group mt-2">
           <div className="field">
-            <p className="control has-icons-left">
-              <input className="input"
-                type="password"
-                id="confirmPassword"
-                name="confirmPassword"
-                placeholder="Confirm Password"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                required
-              />
-              <span className="icon is-small is-left">
-                <i className="fas fa-lock"></i>
-              </span>
-            </p>
+            <div className="input-with-action">
+              <p className="control has-icons-left">
+                <input className="input"
+                  type={showConfirm ? 'text' : 'password'}
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  placeholder="Confirm Password"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  required
+                />
+                <span className="icon is-small is-left">
+                  <i className="fas fa-lock"></i>
+                </span>
+                <button type="button" className="input-action-btn" aria-label="Toggle confirm password visibility" onClick={() => setShowConfirm(s => !s)}>
+                  {showConfirm ? <i className="fas fa-eye-slash"></i> : <i className="fas fa-eye"></i>}
+                </button>
+              </p>
+            </div>
           </div>
         </div>
 
@@ -152,8 +168,8 @@ export default function Signup() {
 
         {errorMessage && <p className="error-message has-text-danger">{errorMessage}</p>}
 
-        <button type="submit" className="button is-primary submit-button mt-2">
-          Register
+        <button type="submit" className="button is-primary submit-button mt-2" disabled={loading}>
+          {loading ? <span className="spinner" /> : 'Register'}
         </button>
       </form>
     </div>
