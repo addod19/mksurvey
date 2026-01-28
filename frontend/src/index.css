@@ -193,20 +193,21 @@ html, body, #root {
 
 /* Input with inline action (show password) */
 .input-with-action { position: relative; }
-.input-with-action .input { padding-right: 3.2rem; }
+.input-with-action .input { padding-right: 3.6rem; }
 .input-action-btn {
   position: absolute;
-  right: 8px;
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
   border: none;
   background: transparent;
-  color: rgba(15,23,36,0.6);
+  color: var(--color-primary);
   cursor: pointer;
   padding: 4px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  z-index: 12;
 }
 .input-action-btn:focus { outline: none; }
 
