@@ -1,0 +1,10 @@
+class RefreshToken < ApplicationRecord
+  belongs_to :user
+  before_create :generate_token
+  def expired?; expires_at < Time.current; end
+
+  private
+  def generate_token
+    self.token = SecureRandom.urlsafe_base64(32)
+  end
+end

@@ -1,11 +1,9 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 
 
 export default function Login() {
-  const navigate = useNavigate();
   const auth = useAuth();
 
   const [formData, setFormData] = useState({
@@ -25,7 +23,6 @@ export default function Login() {
     setErrorMessage('');
     const res = await auth.signIn(formData.email, formData.password);
     if (!res.ok) setErrorMessage(res.error || 'Login failed');
-    else navigate('/');
   };
 
   return (

@@ -1,0 +1,15 @@
+# Ignore environment files
+.env
+/backend/.env
+/frontend/.env.local
+/frontend/.env
+
+# Node modules
+/frontend/node_modules
+
+# Rails tmp and log
+/backend/log/*
+/backend/tmp/*
+
+# VSCode
+.vscode/

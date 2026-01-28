@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 export default function Signup() {
-  const navigate = useNavigate();
   const auth = useAuth();
 
   const [formData, setFormData] = useState({
@@ -37,8 +35,7 @@ export default function Signup() {
       role: formData.role,
     };
     const res = await auth.signUp(payload);
-    if (!res.ok) setErrorMessage(res.error || 'Registration failed');
-    else navigate('/');
+  if (!res.ok) setErrorMessage(res.error || 'Registration failed');
   };
 
   return (

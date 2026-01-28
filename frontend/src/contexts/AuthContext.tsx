@@ -17,7 +17,7 @@ type AuthContextValue = {
   signOut: () => void;
 };
 
-const API_BASE = import.meta.env.VITE_API_BASE || '/api';
+const API_BASE = import.meta.env.VITE_API_BASE || '/api/v1';
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
@@ -65,23 +65,42 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signIn = async (email: string, password: string) => {
     try {
-      const res = await fetch(`${API_BASE}/auth/sign_in`, {
+      const res = await fetch(`${API_BASE}/users/sign_in`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ user: { email, password } }),
       });
       if (!res.ok) {
         const err = await res.text();
         return { ok: false, error: err || 'Sign in failed' };
       }
+      // devise-jwt dispatches JWT in the Authorization header
+      const headerToken = res.headers.get('authorization') || res.headers.get('Authorization');
       const data = await res.json();
-      const t = data.token || data.access_token || data.auth_token;
       const u = data.user || data;
-      if (t) {
+
+      if (headerToken) {
+        // header is typically: "Bearer <token>"
+        const t = headerToken.replace(/^Bearer\s+/i, '');
         localStorage.setItem('token', t);
         setToken(t);
       }
+
       setUser(u);
+
+      // redirect based on role
+      const role = (u && (u.role || u.role_name)) || null;
+      if (role) {
+        if (role.includes('loader')) navigate('/dashboard/loader');
+        else if (role.includes('tipper')) navigate('/dashboard/tipper');
+        else if (role.includes('survey')) navigate('/dashboard/survey');
+        else if (role.includes('blocks')) navigate('/dashboard/blocks');
+        else if (role.includes('main')) navigate('/dashboard/main');
+        else navigate('/dashboard');
+      } else {
+        navigate('/dashboard');
+      }
+
       return { ok: true };
     } catch (err: any) {
       return { ok: false, error: err?.message || 'Sign in error' };
@@ -90,23 +109,39 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signUp = async (payload: Record<string, any>) => {
     try {
-      const res = await fetch(`${API_BASE}/auth/sign_up`, {
+      const res = await fetch(`${API_BASE}/users`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ user: payload }),
       });
       if (!res.ok) {
         const err = await res.text();
         return { ok: false, error: err || 'Sign up failed' };
       }
       const data = await res.json();
-      const t = data.token || data.access_token || data.auth_token;
+      // after sign up backend returns created user but may or may not dispatch a token
+      const headerToken = res.headers.get('authorization') || res.headers.get('Authorization');
       const u = data.user || data;
-      if (t) {
+      if (headerToken) {
+        const t = headerToken.replace(/^Bearer\s+/i, '');
         localStorage.setItem('token', t);
         setToken(t);
       }
       setUser(u);
+
+      // redirect based on role after sign up (if token was issued)
+      const role = (u && (u.role || u.role_name)) || null;
+      if (role) {
+        if (role.includes('loader')) navigate('/dashboard/loader');
+        else if (role.includes('tipper')) navigate('/dashboard/tipper');
+        else if (role.includes('survey')) navigate('/dashboard/survey');
+        else if (role.includes('blocks')) navigate('/dashboard/blocks');
+        else if (role.includes('main')) navigate('/dashboard/main');
+        else navigate('/dashboard');
+      } else {
+        navigate('/dashboard');
+      }
+
       return { ok: true };
     } catch (err: any) {
       return { ok: false, error: err?.message || 'Sign up error' };
@@ -114,10 +149,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signOut = () => {
-    setUser(null);
-    setToken(null);
-    localStorage.removeItem('token');
-    navigate('/login');
+    (async () => {
+      try {
+        if (token) {
+          await fetch(`${API_BASE}/users/sign_out`, {
+            method: 'DELETE',
+            headers: { Authorization: `Bearer ${token}` },
+          });
+        }
+      } catch (err) {
+        // ignore
+      } finally {
+        setUser(null);
+        setToken(null);
+        localStorage.removeItem('token');
+        navigate('/login');
+      }
+    })();
   };
 
   return (
