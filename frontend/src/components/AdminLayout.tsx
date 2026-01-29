@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import '../App.css';
 
 const Sidebar: React.FC = () => {
   const { user } = useAuth();
@@ -8,7 +9,7 @@ const Sidebar: React.FC = () => {
   const displayName = user?.full_name || user?.name || user?.email || 'Admin';
   const initials = displayName.slice(0, 2).toUpperCase();
   const roleLabel = role
-    ? role.replace(/_/g, ' ').replace(/\b\w/g, (m) => m.toUpperCase())
+    ? role.replace(/_/g, ' ').replace(/\b\w/g, (m: string) => m.toUpperCase())
     : 'Admin';
 
   const navItems = [
@@ -75,7 +76,7 @@ const StatsRow: React.FC = () => (
 
 const AdminLayout: React.FC<{ title?: string; children?: React.ReactNode; showStats?: boolean }> = ({ title, children, showStats = true }) => {
   return (
-    <div className="admin-shell">
+    <div className="">
       <div className="container">
         <div className="admin-card-shell">
           {/* sidebar sits inside the white card shell to match the desired design */}
