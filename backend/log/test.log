@@ -1,0 +1,452 @@
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public[0m
+  [1m[35m (41.4ms)[0m  [1m[35mCREATE DATABASE "backend_test" ENCODING = 'unicode'[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql" SCHEMA pg_catalog[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "jwt_denylists" CASCADE[0m
+  [1m[35m (8.7ms)[0m  [1m[35mCREATE TABLE "jwt_denylists" ("id" bigserial primary key, "created_at" timestamp(6) NOT NULL, "exp" timestamp(6), "jti" character varying, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (4.5ms)[0m  [1m[35mCREATE INDEX "index_jwt_denylists_on_jti" ON "jwt_denylists" ("jti")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "users" CASCADE[0m
+  [1m[35m (6.0ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "created_at" timestamp(6) NOT NULL, "email" character varying DEFAULT '' NOT NULL, "encrypted_password" character varying DEFAULT '' NOT NULL, "remember_created_at" timestamp(6), "reset_password_sent_at" timestamp(6), "reset_password_token" character varying, "role" character varying, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (4.6ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")[0m
+  [1m[35m (4.6ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")[0m
+  [1m[35m (4.6ms)[0m  [1m[35mCREATE INDEX "index_users_on_role" ON "users" ("role")[0m
+  [1m[35m (5.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (2.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (5.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20260127233948)[0m
+  [1m[35m (4.8ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20260127233043),
+(20260127233027);[0m
+  [1m[35m (9.1ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (2.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (5.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'test', '2026-01-28 00:00:52.877207', '2026-01-28 00:00:52.877216') RETURNING "key"[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Load (1.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::InternalMetadata Create (4.9ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', 'eb29388dd46d949c1b68d25c54877c25937e4e3c', '2026-01-28 00:00:52.889436', '2026-01-28 00:00:52.889443') RETURNING "key"[0m
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT pg_try_advisory_lock(3087697479046693695)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT pg_advisory_unlock(3087697479046693695)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[35mSET search_path TO public[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[35mSET search_path TO "$user", public[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[35mSET search_path TO public[0m
+  [1m[35mSQL (0.8ms)[0m  [1m[35mSET search_path TO "$user", public[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (1.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.9ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:01:10.739186"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:01:10.739186"]]
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:01:10 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+Completed 401 Unauthorized in 14ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:01:10.818921"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:01:10.818921"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:01:10 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+Completed 401 Unauthorized in 0ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (1.3ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.7ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:01:37.026292"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:01:37.026292"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:01:37 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+Completed 401 Unauthorized in 7ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:01:37.073358"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:01:37.073358"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:01:37 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+Completed 401 Unauthorized in 0ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (1.1ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.6ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:02:24.143344"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:02:24.143344"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:02:24 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+Completed 401 Unauthorized in 7ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (1.2ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:02:24.190382"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:02:24.190382"]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:02:24 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+Completed 401 Unauthorized in 1ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (1.3ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.8ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:05:54.967400"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:05:54.967400"]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:05:54 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+Completed 401 Unauthorized in 7ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:05:55.014786"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:05:55.014786"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:05:55 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+Completed 401 Unauthorized in 1ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (1.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.8ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:06:57.158311"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:06:57.158311"]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:06:57 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+Completed 401 Unauthorized in 7ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:06:57.205819"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:06:57.205819"]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:06:57 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+Completed 401 Unauthorized in 0ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (1.3ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.7ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:09:10.421224"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:09:10.421224"]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:09:10 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+Completed 401 Unauthorized in 7ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:09:10.468980"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:09:10.468980"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:09:10 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+Completed 401 Unauthorized in 1ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(3087697479046693695)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.9ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(3087697479046693695)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[35mSET search_path TO "$user", public[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[35mSET search_path TO "$user", public[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[35mSET search_path TO public[0m
+  [1m[35m (40.4ms)[0m  [1m[35mCREATE DATABASE "backend_test" ENCODING = 'unicode'[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(3087697479046693695)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.9ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(3087697479046693695)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[35mSET search_path TO public[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[35mSET search_path TO "$user", public[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO "$user", public[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (1.5ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.7ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:12:46.048158"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:12:46.048158"]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:12:46 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+Completed 401 Unauthorized in 7ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:12:46.095424"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:12:46.095424"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:12:46 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+Completed 401 Unauthorized in 0ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (1.5ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.7ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:28:37.601238"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:28:37.601238"]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:28:37 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+Completed 401 Unauthorized in 7ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (0.9ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.6ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:28:37.648550"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:28:37.648550"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:28:37 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+Completed 401 Unauthorized in 0ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (1.5ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.8ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:38:24.775481"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:38:24.775481"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:38:24 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+Completed 401 Unauthorized in 7ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:38:24.825620"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:38:24.825620"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:38:24 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+Completed 401 Unauthorized in 0ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (1.3ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.7ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:40:18.782404"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:40:18.782404"]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:40:18 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+Completed 401 Unauthorized in 9ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:40:18.861055"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:40:18.861055"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:40:18 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+Completed 401 Unauthorized in 0ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (2.2ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.9ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:41:19.835009"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:41:19.835009"]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:41:19 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+Completed 500 Internal Server Error in 16ms (ActiveRecord: 1.0ms (1 query, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (1.2ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:41:19.906461"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:41:19.906461"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:41:19 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+Completed 500 Internal Server Error in 4ms (ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (2.0ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.7ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:41:32.765863"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:41:32.765863"]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:41:32 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+Completed 200 OK in 13ms (Views: 0.5ms | ActiveRecord: 0.9ms (1 query, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:41:32.824278"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:41:32.824278"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:41:32 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+Completed 200 OK in 4ms (Views: 0.4ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+Started DELETE "/api/v1/users/sign_out" for 127.0.0.1 at 2026-01-28 00:41:32 +0000
+Processing by Api::V1::SessionsController#destroy as JSON
+  Parameters: {"session"=>{}}
+Completed 500 Internal Server Error in 0ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (2.0ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.9ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:41:47.414619"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:41:47.414619"]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:41:47 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+Completed 200 OK in 13ms (Views: 0.4ms | ActiveRecord: 1.2ms (1 query, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:41:47.475137"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:41:47.475137"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:41:47 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+Completed 200 OK in 4ms (Views: 0.3ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+Started DELETE "/api/v1/users/sign_out" for 127.0.0.1 at 2026-01-28 00:41:47 +0000
+Processing by Api::V1::SessionsController#destroy as JSON
+  Parameters: {"session"=>{}}
+Completed 500 Internal Server Error in 0ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (1.2ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.7ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:42:11.856360"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:42:11.856360"]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:42:11 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+Completed 200 OK in 14ms (Views: 0.5ms | ActiveRecord: 0.9ms (1 query, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (1.3ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.6ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:42:11.915233"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:42:11.915233"]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:42:11 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+Completed 200 OK in 3ms (Views: 0.3ms | ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 0.0ms)
+Started DELETE "/api/v1/users/sign_out" for 127.0.0.1 at 2026-01-28 00:42:11 +0000
+Processing by Api::V1::SessionsController#destroy as JSON
+  Parameters: {"session"=>{}}
+Filter chain halted as :verify_signed_out_user rendered or redirected
+Completed 204 No Content in 0ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (1.3ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.7ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:42:54.284966"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:42:54.284966"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:42:54 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+Completed 200 OK in 14ms (Views: 0.5ms | ActiveRecord: 0.8ms (1 query, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (1.3ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:42:54.342952"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:42:54.342952"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:42:54 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+Completed 200 OK in 4ms (Views: 0.3ms | ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 0.0ms)
+Started DELETE "/api/v1/users/sign_out" for 127.0.0.1 at 2026-01-28 00:42:54 +0000
+Processing by Api::V1::SessionsController#destroy as JSON
+  Parameters: {"session"=>{}}
+Filter chain halted as :verify_signed_out_user rendered or redirected
+Completed 204 No Content in 0ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 30], ["LIMIT", 1]]
+  [1m[36mJwtDenylist Load (0.9ms)[0m  [1m[34mSELECT "jwt_denylists".* FROM "jwt_denylists" WHERE "jwt_denylists"."jti" = $1 AND "jwt_denylists"."exp" = $2 LIMIT $3[0m  [["jti", "2628d163-3282-4a18-8527-d8557c635775"], ["exp", "2026-01-28 00:57:54"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mJwtDenylist Create (0.9ms)[0m  [1m[32mINSERT INTO "jwt_denylists" ("created_at", "exp", "jti", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["created_at", "2026-01-28 00:42:54.367193"], ["exp", "2026-01-28 00:57:54"], ["jti", "2628d163-3282-4a18-8527-d8557c635775"], ["updated_at", "2026-01-28 00:42:54.367193"]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mJwtDenylist Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "jwt_denylists"[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (1.3ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.7ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:43:20.294845"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:43:20.294845"]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:43:20 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+Completed 200 OK in 11ms (Views: 0.4ms | ActiveRecord: 0.9ms (1 query, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.6ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:43:20.343314"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:43:20.343314"]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:43:20 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+Completed 200 OK in 4ms (Views: 0.4ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+Started DELETE "/api/v1/users/sign_out" for 127.0.0.1 at 2026-01-28 00:43:20 +0000
+Processing by Api::V1::SessionsController#destroy as JSON
+  Parameters: {"session"=>{}}
+Filter chain halted as :verify_signed_out_user rendered or redirected
+Completed 204 No Content in 0ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 32], ["LIMIT", 1]]
+  [1m[36mJwtDenylist Load (0.8ms)[0m  [1m[34mSELECT "jwt_denylists".* FROM "jwt_denylists" WHERE "jwt_denylists"."jti" = $1 AND "jwt_denylists"."exp" = $2 LIMIT $3[0m  [["jti", "8032a7d1-e25e-47b6-8984-635ea66fa982"], ["exp", "2026-01-28 00:58:20"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mJwtDenylist Create (0.6ms)[0m  [1m[32mINSERT INTO "jwt_denylists" ("created_at", "exp", "jti", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["created_at", "2026-01-28 00:43:20.367490"], ["exp", "2026-01-28 00:58:20"], ["jti", "8032a7d1-e25e-47b6-8984-635ea66fa982"], ["updated_at", "2026-01-28 00:43:20.367490"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mJwtDenylist Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "jwt_denylists"[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (1.2ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.6ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:44:35.926340"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:44:35.926340"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:44:35 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+Completed 200 OK in 14ms (Views: 0.4ms | ActiveRecord: 0.9ms (1 query, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (1.0ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("created_at", "email", "encrypted_password", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["created_at", "2026-01-28 00:44:35.980955"], ["email", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["remember_created_at", nil], ["reset_password_sent_at", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["role", "survey_admin"], ["updated_at", "2026-01-28 00:44:35.980955"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/users/sign_in" for 127.0.0.1 at 2026-01-28 00:44:35 +0000
+Processing by Api::V1::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+Completed 200 OK in 4ms (Views: 0.3ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+Started DELETE "/api/v1/users/sign_out" for 127.0.0.1 at 2026-01-28 00:44:35 +0000
+Processing by Api::V1::SessionsController#destroy as JSON
+  Parameters: {"session"=>{}}
+Filter chain halted as :verify_signed_out_user rendered or redirected
+Completed 204 No Content in 0ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 34], ["LIMIT", 1]]
+  [1m[36mJwtDenylist Load (0.9ms)[0m  [1m[34mSELECT "jwt_denylists".* FROM "jwt_denylists" WHERE "jwt_denylists"."jti" = $1 AND "jwt_denylists"."exp" = $2 LIMIT $3[0m  [["jti", "b39e9b1c-9c87-489e-84fc-40ba14b97768"], ["exp", "2026-01-28 00:59:35"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mJwtDenylist Create (0.6ms)[0m  [1m[32mINSERT INTO "jwt_denylists" ("created_at", "exp", "jti", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["created_at", "2026-01-28 00:44:36.002159"], ["exp", "2026-01-28 00:59:35"], ["jti", "b39e9b1c-9c87-489e-84fc-40ba14b97768"], ["updated_at", "2026-01-28 00:44:36.002159"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mJwtDenylist Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "jwt_denylists"[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
