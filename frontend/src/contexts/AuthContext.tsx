@@ -86,6 +86,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const t = headerToken.replace(/^Bearer\s+/i, '');
         localStorage.setItem('token', t);
         setToken(t);
+      } else if (data?.token) {
+        localStorage.setItem('token', data.token);
+        setToken(data.token);
       }
 
       setUser(u);
@@ -128,6 +131,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const t = headerToken.replace(/^Bearer\s+/i, '');
         localStorage.setItem('token', t);
         setToken(t);
+      } else if (data?.token) {
+        localStorage.setItem('token', data.token);
+        setToken(data.token);
       }
       setUser(u);
 

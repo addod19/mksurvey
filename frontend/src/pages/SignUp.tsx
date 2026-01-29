@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import BackButton from '../components/BackButton';
 
 export default function Signup() {
   const auth = useAuth();
@@ -45,133 +47,134 @@ export default function Signup() {
   };
 
   return (
-    <div className="form-container">
-      <h2>User Registration</h2>
-      <form className="registration-form" onSubmit={handleSubmit}>
-        <div className="form-group mt-2">
-          <div className="field">
-            <p className="control has-icons-left has-icons-right">
-              <input className="input"
-                type="text"
-                id="fullname"
-                name="fullname"
-                placeholder="Full Name"
-                value={formData.fullname}
-                onChange={handleChange}
-                required
-              />
-              <span className="icon is-small is-left">
-                <i className="fas fa-user"></i>
-              </span>
-            </p>
-          </div>
+    <div className="auth-page">
+      <div className="auth-shell">
+        <div className="auth-toolbar">
+          <BackButton className="mk-back-btn auth-back" />
         </div>
-
-        <div className="form-group mt-2">
-          <div className="field">
-            <p className="control has-icons-left has-icons-right">
-              <input className="input"
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-              <span className="icon is-small is-left">
-                <i className="fas fa-envelope"></i>
-              </span>
+        <div className="auth-card">
+          <div className="auth-side">
+            <p className="auth-eyebrow">MK Surveying</p>
+            <h2>Create your account</h2>
+            <p>
+              Register to access admin tools, rental logs, and operations
+              tracking with precision.
             </p>
+            <div className="auth-tags">
+              <span>Survey Admin</span>
+              <span>Loader</span>
+              <span>Blocks</span>
+            </div>
           </div>
-        </div>
 
-        <div className="form-group mt-2">
-          <div className="field">
-            <div className="input-with-action">
-              <p className="control has-icons-left">
-                <input className="input"
-                  type={showPassword ? 'text' : 'password'}
-                  id="password"
-                  name="password"
-                  placeholder="Password"
-                  value={formData.password}
+          <div className="auth-form-panel">
+            <h3 className="auth-title">Sign up</h3>
+            <p className="auth-subtitle">Complete the form to get started.</p>
+            <form className="auth-form" onSubmit={handleSubmit}>
+              <div className="auth-field">
+                <label className="auth-label" htmlFor="fullname">Full name</label>
+                <input
+                  className="auth-input"
+                  type="text"
+                  id="fullname"
+                  name="fullname"
+                  placeholder="Full name"
+                  value={formData.fullname}
                   onChange={handleChange}
                   required
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-lock"></i>
-                </span>
-                <button type="button" className="input-action-btn" aria-label="Toggle password visibility" onClick={() => setShowPassword(s => !s)}>
-                  {showPassword ? <i className="fas fa-eye-slash"></i> : <i className="fas fa-eye"></i>}
-                </button>
-              </p>
-            </div>
-          </div>
-        </div>
+              </div>
 
-        <div className="form-group mt-2">
-          <div className="field">
-            <div className="input-with-action">
-              <p className="control has-icons-left">
-                <input className="input"
-                  type={showConfirm ? 'text' : 'password'}
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  placeholder="Confirm Password"
-                  value={formData.confirmPassword}
+              <div className="auth-field">
+                <label className="auth-label" htmlFor="email">Email</label>
+                <input
+                  className="auth-input"
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="you@example.com"
+                  value={formData.email}
                   onChange={handleChange}
                   required
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-lock"></i>
-                </span>
-                <button type="button" className="input-action-btn" aria-label="Toggle confirm password visibility" onClick={() => setShowConfirm(s => !s)}>
-                  {showConfirm ? <i className="fas fa-eye-slash"></i> : <i className="fas fa-eye"></i>}
-                </button>
-              </p>
-            </div>
-          </div>
-        </div>
+              </div>
 
-        <div className="form-group mt-2">
-          <div className="field">
-            <p className="control has-icons-left">
-              <input className="input"
-                type="text"
-                id="phoneNumber"
-                name="phoneNumber"
-                placeholder="Phone Number"
-                value={formData.phoneNumber}
-                onChange={handleChange}
-              />
-            </p>
-          </div>
-        </div>
+              <div className="auth-field">
+                <label className="auth-label" htmlFor="password">Password</label>
+                <div className="input-with-action">
+                  <input
+                    className="auth-input"
+                    type={showPassword ? 'text' : 'password'}
+                    id="password"
+                    name="password"
+                    placeholder="Create a password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                  />
+                  <button type="button" className="input-action-btn auth-action-btn" aria-label="Toggle password visibility" onClick={() => setShowPassword(s => !s)}>
+                    {showPassword ? <i className="fas fa-eye-slash"></i> : <i className="fas fa-eye"></i>}
+                  </button>
+                </div>
+              </div>
 
-        <div className="form-group mt-2">
-          <div className="field">
-            <label className="label">Role (choose admin role if creating admin)</label>
-            <div className="control">
-              <div className="select">
-                <select name="role" value={formData.role} onChange={handleChange}>
+              <div className="auth-field">
+                <label className="auth-label" htmlFor="confirmPassword">Confirm password</label>
+                <div className="input-with-action">
+                  <input
+                    className="auth-input"
+                    type={showConfirm ? 'text' : 'password'}
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    placeholder="Repeat your password"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    required
+                  />
+                  <button type="button" className="input-action-btn auth-action-btn" aria-label="Toggle confirm password visibility" onClick={() => setShowConfirm(s => !s)}>
+                    {showConfirm ? <i className="fas fa-eye-slash"></i> : <i className="fas fa-eye"></i>}
+                  </button>
+                </div>
+              </div>
+
+              <div className="auth-field">
+                <label className="auth-label" htmlFor="phoneNumber">Phone number</label>
+                <input
+                  className="auth-input"
+                  type="text"
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  placeholder="+233 00 000 0000"
+                  value={formData.phoneNumber}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="auth-field">
+                <label className="auth-label" htmlFor="role">Role</label>
+                <select id="role" name="role" value={formData.role} onChange={handleChange} className="auth-select">
                   <option value="survey_admin">Survey Admin</option>
                   <option value="loader_admin">Loader Admin</option>
                   <option value="tipper_admin">Tipper Admin</option>
                   <option value="blocks_admin">Blocks Admin</option>
                   <option value="main_admin">Main Admin</option>
                 </select>
+                <p className="auth-hint">Choose the admin role for this account.</p>
               </div>
-            </div>
+
+              {errorMessage && <div className="auth-error">{errorMessage}</div>}
+
+              <button type="submit" className="mk-btn mk-btn-primary auth-submit" disabled={loading}>
+                {loading ? <span className="spinner" /> : 'Register'}
+              </button>
+            </form>
+
+            <p className="auth-alt">
+              Already have an account? <Link to="/login">Log in</Link>
+            </p>
           </div>
         </div>
-
-        {errorMessage && <p className="error-message has-text-danger">{errorMessage}</p>}
-
-        <button type="submit" className="button is-primary submit-button mt-2" disabled={loading}>
-          {loading ? <span className="spinner" /> : 'Register'}
-        </button>
-      </form>
+      </div>
     </div>
   );
 }

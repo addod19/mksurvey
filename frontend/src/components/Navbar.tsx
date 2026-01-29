@@ -6,6 +6,21 @@ export default function Navbar() {
   const [isActive, setIsActive] = useState(false);
   const handleLinkClick = () => setIsActive(false);
   const { user, signOut, loading } = useAuth();
+  const role = ((user && (user.role || (user as any).role_name)) || '').toString().toLowerCase();
+  // const canSeeLoaderTipper = role.includes('loader') || role.includes('tipper') || role.includes('main');
+  // const canSeeMachineRentals = role.includes('loader') || role.includes('main');
+  // const canSeeBlocks = role.includes('blocks') || role.includes('main');
+  const dashboardPath = role.includes('loader')
+    ? '/dashboard/loader'
+    : role.includes('tipper')
+      ? '/dashboard/tipper'
+      : role.includes('survey')
+        ? '/dashboard/survey'
+        : role.includes('blocks')
+          ? '/dashboard/blocks'
+          : role.includes('main')
+            ? '/dashboard/main'
+            : '/dashboard';
 
   // avatar menu open state
   const [open, setOpen] = useState(false);
@@ -51,17 +66,21 @@ export default function Navbar() {
             <Link to="/" className="navbar-item has-text-white" onClick={handleLinkClick}>
               Home
             </Link>
-            <>
+            {/* {canSeeLoaderTipper && (
               <Link to="/loaderTipper" className="navbar-item has-text-white" onClick={handleLinkClick}>
                 Loader and Tipper
               </Link>
+            )}
+            {canSeeMachineRentals && (
               <Link to="/machineRentals" className="navbar-item has-text-white" onClick={handleLinkClick}>
                 Machine Rentals
               </Link>
+            )}
+            {canSeeBlocks && (
               <Link to="/blocks" className="navbar-item has-text-white" onClick={handleLinkClick}>
                 Blocks Factory
               </Link>
-            </>
+            )} */}
           </div>
 
           <div className="navbar-end">
@@ -86,7 +105,10 @@ export default function Navbar() {
                 <div className={`avatar-menu ${open ? 'is-open' : ''}`} role="menu">
                   {!loading && user ? (
                     <>
-                      <div className="avatar-item">Signed in as <strong>{user.email}</strong></div>
+                      <div className="avatar-item avatar-email">{user.email}</div>
+                      <Link to={dashboardPath} className="avatar-item" onClick={() => setOpen(false)}>
+                        Admin dashboard
+                      </Link>
                       <button className="avatar-item avatar-logout" onClick={() => { setOpen(false); signOut(); }}>
                         Logout
                       </button>

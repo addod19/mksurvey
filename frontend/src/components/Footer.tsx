@@ -1,7 +1,7 @@
 
 export default function Footer() {
   return (
-    <footer className="site-footer footer mt-6">
+    <footer className="site-footer footer mt-3">
       <div className="container">
         <div className="content has-text-centered">
           <p>

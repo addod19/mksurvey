@@ -14,7 +14,12 @@ module Api
         if user&.valid_password?(password)
           # sign_in without storing session (API-only) so devise-jwt callbacks still run
           sign_in(user, store: false)
-          render json: { user: user }, status: :ok
+          token = request.env['warden-jwt_auth.token']
+          if token.blank? && defined?(Warden::JWTAuth::UserEncoder)
+            token, = Warden::JWTAuth::UserEncoder.new.call(user, :user, nil)
+          end
+          response.set_header('Authorization', "Bearer #{token}") if token.present?
+          render json: { user: user, token: token }, status: :ok
         else
           render json: { errors: ['Invalid email or password'] }, status: :unauthorized
         end
@@ -23,7 +28,12 @@ module Api
       private
 
       def respond_with(resource, _opts = {})
-        render json: { user: resource }, status: :ok
+        token = request.env['warden-jwt_auth.token']
+        if token.blank? && defined?(Warden::JWTAuth::UserEncoder)
+          token, = Warden::JWTAuth::UserEncoder.new.call(resource, :user, nil)
+        end
+        response.set_header('Authorization', "Bearer #{token}") if token.present?
+        render json: { user: resource, token: token }, status: :ok
       end
 
       # Devise may call respond_to_on_destroy with an argument in some versions

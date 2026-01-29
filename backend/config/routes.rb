@@ -11,6 +11,11 @@ Rails.application.routes.draw do
       get 'auth/me', to: 'users#me' # returns current_user
       # refresh endpoint if you implement refresh-token model (below)
       post 'auth/refresh', to: 'api/v1/tokens#refresh'
+
+      resources :loader_rentals, only: [:index, :create]
+      resources :loader_expenditures, only: [:index, :create]
+      resources :survey_rentals, only: [:index, :create, :update]
+      resources :blocks_productions, only: [:index, :create, :update]
     end
   end
   

@@ -1,8 +1,7 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-
-
-
+import BackButton from '../components/BackButton';
 export default function Login() {
   const auth = useAuth();
 
@@ -30,58 +29,81 @@ export default function Login() {
   };
 
   return (
-    <div className="form-container">
-      <h2>Login</h2>
-      <form className="registration-form" onSubmit={handleSubmit}>
-        <div className="form-group mt-2">
-          <div className="field">
-            <p className="control has-icons-left has-icons-right">
-              <input className="input"
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-              <span className="icon is-small is-left">
-                <i className="fas fa-envelope"></i>
-              </span>
-            </p>
-          </div>
+    <div className="auth-page">
+      <div className="auth-shell">
+        <div className="auth-toolbar">
+          <BackButton className="mk-back-btn auth-back" />
         </div>
+        <div className="auth-card">
+          <div className="auth-side">
+            <p className="auth-eyebrow">MK Surveying</p>
+            <h2>Welcome back</h2>
+            <p>
+              Sign in to access admin tools, project updates, and operational
+              dashboards.
+            </p>
+            <div className="auth-tags">
+              <span>Surveying</span>
+              <span>Construction</span>
+              <span>Operations</span>
+            </div>
+          </div>
 
-        <div className="form-group mt-2">
-          <div className="field">
-            <div className="input-with-action">
-              <p className="control has-icons-left">
-                <input className="input"
-                  type={showPassword ? 'text' : 'password'}
-                  id="password"
-                  name="password"
-                  placeholder="Password"
-                  value={formData.password}
+          <div className="auth-form-panel">
+            <h3 className="auth-title">Login</h3>
+            <p className="auth-subtitle">Enter your details to continue.</p>
+            <form className="auth-form" onSubmit={handleSubmit}>
+              <div className="auth-field">
+                <label className="auth-label" htmlFor="email">Email</label>
+                <input
+                  className="auth-input"
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="you@example.com"
+                  value={formData.email}
                   onChange={handleChange}
                   required
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-lock"></i>
-                </span>
-                <button type="button" className="input-action-btn" aria-label="Toggle password visibility" onClick={() => setShowPassword(s => !s)}>
-                  {showPassword ? <i className="fas fa-eye-slash"></i> : <i className="fas fa-eye"></i>}
-                </button>
-              </p>
-            </div>
+              </div>
+
+              <div className="auth-field">
+                <label className="auth-label" htmlFor="password">Password</label>
+                <div className="input-with-action">
+                  <input
+                    className="auth-input"
+                    type={showPassword ? 'text' : 'password'}
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="input-action-btn auth-action-btn"
+                    aria-label="Toggle password visibility"
+                    onClick={() => setShowPassword(s => !s)}
+                  >
+                    {showPassword ? <i className="fas fa-eye-slash"></i> : <i className="fas fa-eye"></i>}
+                  </button>
+                </div>
+              </div>
+
+              {errorMessage && <div className="auth-error">{errorMessage}</div>}
+
+              <button type="submit" className="mk-btn mk-btn-primary auth-submit" disabled={loading}>
+                {loading ? <span className="spinner" /> : 'Login'}
+              </button>
+            </form>
+
+            <p className="auth-alt">
+              New here? <Link to="/signup">Create an account</Link>
+            </p>
           </div>
         </div>
-
-        {errorMessage && <p className="error-message has-text-danger">{errorMessage}</p>}
-
-        <button type="submit" className="button is-primary submit-button mt-2" disabled={loading}>
-          {loading ? <span className="spinner" /> : 'Login'}
-        </button>
-      </form>
+      </div>
     </div>
   );
 }
