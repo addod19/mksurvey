@@ -3,6 +3,7 @@
 /backend/.env
 /frontend/.env.local
 /frontend/.env
+frontend/.vite/
 
 # Node modules
 /frontend/node_modules
